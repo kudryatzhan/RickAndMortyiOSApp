@@ -34,7 +34,7 @@ final class RMService {
         }
         
         let task = URLSession.shared.dataTask(with: urlRequest) { data, _, error in
-            guard let data = data else {
+            guard let data = data, error == nil else {
                 completion(.failure(error ?? RMServiceError.failedToGetData))
                 return
             }
