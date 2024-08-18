@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CharacterListViewViewModel: NSObject {
+class RMCharacterListViewViewModel: NSObject {
     
     func fetchCharacters() {
         RMService.shared.execute(.allCharactersRequest , expecting: RMGetAllCharactersResponse.self) { result in
@@ -24,15 +24,15 @@ class CharacterListViewViewModel: NSObject {
     
 }
 
-extension CharacterListViewViewModel: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension RMCharacterListViewViewModel: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         20
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "UICollectionViewCell", for: indexPath)
-        cell.backgroundColor = .systemGreen
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RMCharacterCollectionViewCell.cellIdentifier,
+                                                      for: indexPath)
         return cell
     }
     
