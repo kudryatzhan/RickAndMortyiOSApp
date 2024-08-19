@@ -13,8 +13,7 @@ class RMCharacterListViewViewModel: NSObject {
         RMService.shared.execute(.allCharactersRequest , expecting: RMGetAllCharactersResponse.self) { result in
             switch result {
             case let .success(response):
-                print("Total count: \(response.info.count)")
-                print("Page result count: \(response.results.count)")
+                print("Example image URL: \(response.results.first?.image ?? "No image URL")")
                 
             case .failure(let error):
                 print(String(describing: error))
@@ -32,7 +31,14 @@ extension RMCharacterListViewViewModel: UICollectionViewDataSource, UICollection
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RMCharacterCollectionViewCell.cellIdentifier,
-                                                      for: indexPath)
+                                                      for: indexPath) as! RMCharacterCollectionViewCell
+        
+        let viewModel = RMCharacterCollectionViewCellViewModel(
+            characterName: "John Smith",
+            characterStatus: .alive,
+            characterImageURL: URL(string: "https://rickandmortyapi.com/api/character/avatar/1.jpeg"))
+        cell.configure(with: viewModel)
+        
         return cell
     }
     

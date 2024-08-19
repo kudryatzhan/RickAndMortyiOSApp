@@ -43,6 +43,7 @@ final class RMCharacterListView: UIView {
         addConstraints()
         spinner.startAnimating()
         
+        viewModel.fetchCharacters()
         configureCollectionView()
     }
     

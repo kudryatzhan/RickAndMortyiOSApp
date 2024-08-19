@@ -59,11 +59,38 @@ class RMCharacterCollectionViewCell: UICollectionViewCell {
     
     private func addConstraints() {
         NSLayoutConstraint.activate([
+            nameLabel.heightAnchor.constraint(equalToConstant: 40),
+            statusLabel.heightAnchor.constraint(equalToConstant: 40),
+            
+            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
+            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
+            statusLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
+            statusLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
+            
+            statusLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -3),
+            nameLabel.bottomAnchor.constraint(equalTo: statusLabel.topAnchor, constant: -3),
+            
+            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            imageView.bottomAnchor.constraint(equalTo: nameLabel.topAnchor, constant: -3)
         ])
     }
     
     public func configure(with viewModel: RMCharacterCollectionViewCellViewModel) {
-        
+        nameLabel.text = viewModel.characterName
+        statusLabel.text = viewModel.characterStatusText
+        viewModel.fetchImage { result in
+            switch result {
+            case .success(let data):
+                DispatchQueue.main.async {
+                    self.imageView.image = UIImage(data: data)
+                }
+                
+            case .failure(let error):
+                print(String(describing: error))
+            }
+        }
     }
     
 }
